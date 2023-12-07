@@ -1,17 +1,48 @@
+import * as tf from '@tensorflow/tfjs';
+import * as tfrn from '@tensorflow/tfjs-react-native';
 import { Link } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ImagePickerComponent from '../../components/ImagePicker';
 
 export default function Page() {
+  const [userImage, setUserImage] = useState();
+
+  async function loadModel() {
+    const modelJSON = require('../../assets/model.json');
+    const modelWeights = await require('../../assets/group1-shard4of4.bin');
+
+    const model = await tf.loadLayersModel(
+      tfrn.bundleResourceIO(modelJSON, modelWeights),
+    );
+
+    return model;
+  }
+
+  function preprocessImage(userImage: any) {
+    const tensor = tf.browser.fromPixels(userImage);
+
+    return tensor;
+  }
+
+  async function predict(userImage: any) {
+    const model = await loadModel();
+
+    // const tensor = preprocessImage(userImage);
+
+    // const prediction = model.predict(tensor);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.main}>
         <Text style={styles.title}>Plant disease</Text>
-        <ImagePickerComponent />
+        <ImagePickerComponent userImage={setUserImage} />
         <View>
           <Text>Your plant is: </Text>
         </View>
+        <Button title="predict" onPress={() => predict(userImage)} />
         <Link href={{ pathname: '_sitemap' }}>Go to sitemap</Link>
       </View>
     </SafeAreaView>

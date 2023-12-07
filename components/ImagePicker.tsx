@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useCallback, useState } from 'react';
 import { Alert, Button, Image, StyleSheet, View } from 'react-native';
-const ImagePickerComponent = () => {
+const ImagePickerComponent = ({ userImage }: any) => {
   const [cameraPermissionInformation, requestPermission] =
     ImagePicker.useCameraPermissions();
 
@@ -54,6 +54,7 @@ const ImagePickerComponent = () => {
         return null;
       } else {
         setPickedImage(image.assets[0].uri);
+        userImage(image.assets[0].uri);
       }
     } else {
       throw new Error('Something went wrong!');
