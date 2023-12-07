@@ -1,19 +1,17 @@
 import { Link } from 'expo-router';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ImagePickerComponent from '../../components/ImagePicker';
 
 export default function Page() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.main}>
         <Text style={styles.title}>Plant disease</Text>
-        <View style={styles.innerContainer}>
-          <Text>image</Text>
+        <ImagePickerComponent />
+        <View>
+          <Text>Your plant is: </Text>
         </View>
-        <Button
-          title="Press me"
-          onPress={() => console.log('Button pressed!')}
-        />
         <Link href={{ pathname: '_sitemap' }}>Go to sitemap</Link>
       </View>
     </SafeAreaView>
@@ -31,6 +29,7 @@ const styles = StyleSheet.create({
     maxWidth: 960,
     marginHorizontal: 'auto',
     alignItems: 'center',
+    gap: 24,
   },
   title: {
     fontSize: 58,
