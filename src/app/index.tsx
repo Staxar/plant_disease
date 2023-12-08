@@ -26,12 +26,11 @@ export default function Page() {
   async function loadModel() {
     const modelJSON = require('../../assets/model.json');
     const modelWeights = await [
-      require('../../assets/group1-shard4of4.bin'),
-      require('../../assets/group1-shard3of4.bin'),
-      require('../../assets/group1-shard2of4.bin'),
       require('../../assets/group1-shard1of4.bin'),
+      require('../../assets/group1-shard2of4.bin'),
+      require('../../assets/group1-shard3of4.bin'),
+      require('../../assets/group1-shard4of4.bin'),
     ];
-
     const model = await tf.loadLayersModel(
       tfrn.bundleResourceIO(modelJSON, modelWeights),
     );
@@ -39,7 +38,7 @@ export default function Page() {
   }
 
   async function preprocessImage(userImage: string) {
-    const imageUri = 'https://cid-inc.com/app/uploads/2020/10/leaf_area.jpg';
+    const imageUri = userImage;
     const response = await tfrn.fetch(imageUri, {}, { isBinary: true });
     const imageDataArrayBuffer = await response.arrayBuffer();
     const imageData = new Uint8Array(imageDataArrayBuffer);
