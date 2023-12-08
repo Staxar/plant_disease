@@ -34,7 +34,6 @@ export default function Page() {
   }
 
   function preprocessImage(userImage: any) {
-    if(userImage !==)
     const tensor = tf.browser.fromPixels(userImage);
 
     return tensor;
