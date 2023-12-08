@@ -1,5 +1,4 @@
 import * as tf from '@tensorflow/tfjs';
-import * as tfrn from '@tensorflow/tfjs-react-native';
 import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
@@ -7,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ImagePickerComponent from '../../components/ImagePicker';
 
 export default function Page() {
-  const [userImage, setUserImage] = useState();
+  const [userImage, setUserImage] = useState<string>('');
 
   useEffect(() => {
     async function initializeTF() {
@@ -26,20 +25,18 @@ export default function Page() {
       require('../../assets/group1-shard1of4.bin'),
     ];
 
-    const model = await tf.loadLayersModel(
-      tfrn.bundleResourceIO(modelJSON, modelWeights),
-    );
+    const model = await tf.loadLayersModel(modelJSON);
 
     return model;
   }
 
-  function preprocessImage(userImage: any) {
+  function preprocessImage(userImage: string) {
     const tensor = tf.browser.fromPixels(userImage);
 
     return tensor;
   }
 
-  async function predict(userImage: any) {
+  async function predict(userImage: string) {
     const model = await loadModel();
 
     // const tensor = preprocessImage(userImage);
