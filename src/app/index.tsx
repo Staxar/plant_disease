@@ -35,7 +35,6 @@ export default function Page() {
     const model = await tf.loadLayersModel(
       tfrn.bundleResourceIO(modelJSON, modelWeights),
     );
-    console.log(model);
     return model;
   }
 
@@ -55,14 +54,19 @@ export default function Page() {
   }
 
   async function predict(userImage: string) {
-    const model = await loadModel();
+    setIsPending(true);
+    try {
+      const model = await loadModel();
 
-    const tensor = await preprocessImage(userImage);
+      const tensor = await preprocessImage(userImage);
 
-    const prediction = model.predict(tensor);
-    console.log(prediction);
+      const prediction = model.predict(tensor);
+      console.log(prediction);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsPending(false);
   }
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.main}>
